@@ -12,18 +12,36 @@ import SceneKit
 
 class GameViewController: UIViewController {
 
+    enum CubeFace: Int {
+        case Front, Right, Back, Left, Top, Bottom
+        func getFaceString() -> String{
+            switch self {
+            case .Front:
+                return "front"
+            case .Right:
+                return "right"
+            case .Left:
+                return "left"
+            case .Back:
+                return "back"
+            case .Top:
+                return "top"
+            case .Bottom:
+                return "bottom"
+            }
+        }
+    }
+    
     @IBOutlet var sceneView: SCNView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // create a new scene
-        //        let scene = SCNScene(named: "art.scnassets/ship.scn")!
         let scene = SCNScene()
         // create and add a camera to the scene
         let cameraNode = SCNNode()
         cameraNode.camera = SCNCamera()
         scene.rootNode.addChildNode(cameraNode)
-        //        scene.rootNode.addChildNode(cameraNode)
         
         // place the camera
         cameraNode.position = SCNVector3(x: 0, y: 0, z: 15)
@@ -36,22 +54,19 @@ class GameViewController: UIViewController {
         scene.rootNode.addChildNode(lightNode)
         
         // create and add an ambient light to the scene
-        //        let ambientLightNode = SCNNode()
-        //        ambientLightNode.light = SCNLight()
-        //        ambientLightNode.light!.type = .ambient
-        //        ambientLightNode.light!.color = UIColor.darkGray
-        //        scene.rootNode.addChildNode(ambientLightNode)
+//                let ambientLightNode = SCNNode()
+//                ambientLightNode.light = SCNLight()
+//                ambientLightNode.light!.type = .ambient
+//                ambientLightNode.light!.color = UIColor.darkGray
+//                scene.rootNode.addChildNode(ambientLightNode)
         
         // retrieve the ship node
         //        let ship = scene.rootNode.childNode(withName: "ship", recursively: true)!
-        let box = SCNBox(width: 4, height: 4, length: 4, chamferRadius: 0)
-        
-        //        let greenMateral = SCNMaterial()
-        //        greenMateral.diffuse.contents = UIColor.green
-        //        greenMateral.locksAmbientWithDiffuse = true
-       
-        box.materials = []
-        //        box.materials = [greenMateral, greenMateral1, greenMateral2, a, b, c]
+        let box = SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0)
+//        let box = SCNPyramid(width: 1, height: 1, length: 1)
+        box.materials = [getMaterial(text: "front"), getMaterial(text: "right"), getMaterial(text: "back"), getMaterial(text: "left"), getMaterial(text: "top"), getMaterial(text: "bottom")]
+        // to test images
+//        box.materials = [getMaterialForImage(side: .Front),getMaterialForImage(side: .Right),getMaterialForImage(side: .Back),getMaterialForImage(side: .Left),getMaterialForImage(side: .Top),getMaterialForImage(side: .Bottom)]
         let node = SCNNode(geometry: box)
         scene.rootNode.addChildNode(node)
         
@@ -82,52 +97,45 @@ class GameViewController: UIViewController {
     func handleTap(_ gestureRecognize: UIGestureRecognizer) {
         // retrieve the SCNView
         let scnView = self.view as! SCNView
-        
         // check what nodes are tapped
         let p = gestureRecognize.location(in: scnView)
         let hitResults = scnView.hitTest(p, options: [:])
         // check that we clicked on at least one object
         if hitResults.count > 0 {
             // retrieved the first clicked object
-            let result = hitResults[0]
             
             // get its material
-            let material = result.node.geometry!.firstMaterial!
+            guard let index = hitResults.first?.geometryIndex,let count = hitResults.first?.node.geometry?.materials.count, count > 0, count > index, let material = hitResults.first?.node.geometry?.materials[index] else {return}
+            // this is just to test which side is tapped
+            print("Cube Face Tap is: ",CubeFace.init(rawValue: index)!)
             
             // highlight it
             SCNTransaction.begin()
             SCNTransaction.animationDuration = 0.5
-            
             // on completion - unhighlight
-            SCNTransaction.completionBlock = {
-                SCNTransaction.begin()
-                SCNTransaction.animationDuration = 0.5
-                
-                material.emission.contents = UIColor.black
-                
-                SCNTransaction.commit()
-            }
-            
-            material.emission.contents = UIColor.red
-            
+            guard let label =  (material.diffuse.contents as? UILabel) else {return}
+            label.text?.append(" +")
+            material.emission.contents = label
             SCNTransaction.commit()
         }
     }
     
-    override var shouldAutorotate: Bool {
-        return true
+    func getMaterial(text: String) -> SCNMaterial {
+        let label = UILabel(frame: CGRect.init(x:0 , y: 0, width: 100, height: 100))
+        label.font = UIFont.boldSystemFont(ofSize: 15)
+        label.text = text.uppercased()
+        label.textAlignment = .center
+        let material = SCNMaterial()
+        material.diffuse.contents = label
+        material.locksAmbientWithDiffuse = true
+        return material
     }
-    
-    override var prefersStatusBarHidden: Bool {
-        return true
+    func getMaterialForImage(side: CubeFace) -> SCNMaterial  {
+        let image = UIImageView.init(image: UIImage.init(named: side.getFaceString()))
+        image.contentMode = .scaleAspectFit
+        let material = SCNMaterial()
+        material.diffuse.contents = image
+        material.locksAmbientWithDiffuse = true
+        return material
     }
-    
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            return .allButUpsideDown
-        } else {
-            return .all
-        }
-    }
-
 }
