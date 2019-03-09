@@ -16,14 +16,12 @@ class GameViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // create a new scene
-        //        let scene = SCNScene(named: "art.scnassets/ship.scn")!
         let scene = SCNScene()
+        
         // create and add a camera to the scene
         let cameraNode = SCNNode()
         cameraNode.camera = SCNCamera()
         scene.rootNode.addChildNode(cameraNode)
-        //        scene.rootNode.addChildNode(cameraNode)
         
         // place the camera
         cameraNode.position = SCNVector3(x: 0, y: 0, z: 15)
@@ -35,15 +33,6 @@ class GameViewController: UIViewController {
         lightNode.position = SCNVector3(x: 0, y: 10, z: 10)
         scene.rootNode.addChildNode(lightNode)
         
-        // create and add an ambient light to the scene
-        //        let ambientLightNode = SCNNode()
-        //        ambientLightNode.light = SCNLight()
-        //        ambientLightNode.light!.type = .ambient
-        //        ambientLightNode.light!.color = UIColor.darkGray
-        //        scene.rootNode.addChildNode(ambientLightNode)
-        
-        // retrieve the ship node
-        //        let ship = scene.rootNode.childNode(withName: "ship", recursively: true)!
         let box = SCNBox(width: 4, height: 4, length: 4, chamferRadius: 0)
         
         //        let greenMateral = SCNMaterial()
@@ -129,5 +118,8 @@ class GameViewController: UIViewController {
             return .all
         }
     }
+    
+    
+    
 
 }
