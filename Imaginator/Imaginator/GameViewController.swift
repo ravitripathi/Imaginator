@@ -125,7 +125,7 @@ class GameViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    @objc func exportModel(fileName: String) {
+   @objc func exportModel(fileName: String) {
         guard let url = Utility.shared.getFileURL(withFileName: "test1.scn"), let scene = self.sceneView.scene else {
             return
         }
@@ -137,7 +137,7 @@ class GameViewController: UIViewController {
             if progress == 1.0 {
                 self.progressView.setProgress(0.0, animated: true)
                 self.progressText.text = "Uploading Scene"
-                Utility.shared.uploadScene(withURL: url, completition: { (progress) in
+                Utility.shared.uploadScene(withURL: url, fileName: fileName, completition: { (progress) in
                     self.progressView.setProgress(Float(progress.fractionCompleted), animated: true)
                     if progress.isFinished {
                         self.progressText.text = "Upload Done"
