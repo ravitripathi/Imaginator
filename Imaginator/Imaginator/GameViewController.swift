@@ -9,6 +9,7 @@
 import UIKit
 import QuartzCore
 import SceneKit
+import WeScan
 
 class GameViewController: UIViewController {
     
@@ -18,7 +19,8 @@ class GameViewController: UIViewController {
     
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var progressText: UILabel!
-    
+    var selectedNode: SCNNode?
+    var selectedIndex = -1
     enum CubeFace: Int {
         case Front, Right, Back, Left, Top, Bottom
         func getFaceString() -> String{
@@ -60,43 +62,16 @@ class GameViewController: UIViewController {
         lightNode.position = SCNVector3(x: 0, y: 10, z: 10)
         scene.rootNode.addChildNode(lightNode)
         
-
-        // create and add an ambient light to the scene
-//                let ambientLightNode = SCNNode()
-//                ambientLightNode.light = SCNLight()
-//                ambientLightNode.light!.type = .ambient
-//                ambientLightNode.light!.color = UIColor.darkGray
-//                scene.rootNode.addChildNode(ambientLightNode)
-        
-        // retrieve the ship node
-        //        let ship = scene.rootNode.childNode(withName: "ship", recursively: true)!
         let box = SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0)
-//        let box = SCNPyramid(width: 1, height: 1, length: 1)
         box.materials = [getMaterial(text: "front"), getMaterial(text: "right"), getMaterial(text: "back"), getMaterial(text: "left"), getMaterial(text: "top"), getMaterial(text: "bottom")]
-        // to test images
-//        box.materials = [getMaterialForImage(side: .Front),getMaterialForImage(side: .Right),getMaterialForImage(side: .Back),getMaterialForImage(side: .Left),getMaterialForImage(side: .Top),getMaterialForImage(side: .Bottom)]
         let node = SCNNode(geometry: box)
         scene.rootNode.addChildNode(node)
         
-        // animate the 3d object
-        //        ship.runAction(SCNAction.repeatForever(SCNAction.rotateBy(x: 0, y: 2, z: 0, duration: 1)))
-        
-        // retrieve the SCNView
-        //let scnView = self.view as! SCNView
-        
-        // set the scene to the view
         
         self.sceneView.scene = scene
-        // allows the user to manipulate the camera
         sceneView.allowsCameraControl = true
-        
-        // show statistics such as fps and timing information
         sceneView.showsStatistics = true
-        
-        // configure the view
         sceneView.backgroundColor = UIColor.black
-        
-        // add a tap gesture recognizer
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
         sceneView.addGestureRecognizer(tapGesture)
     }
@@ -111,9 +86,14 @@ class GameViewController: UIViewController {
             // retrieved the first clicked object
             
             // get its material
-            guard let index = hitResults.first?.geometryIndex,let count = hitResults.first?.node.geometry?.materials.count, count > 0, count > index, let material = hitResults.first?.node.geometry?.materials[index] else {return}
+            guard let node = hitResults.first?.node, let index = hitResults.first?.geometryIndex,let count = hitResults.first?.node.geometry?.materials.count, count > 0, count > index, let material = hitResults.first?.node.geometry?.materials[index] else {return}
             // this is just to test which side is tapped
             print("Cube Face Tap is: ",CubeFace.init(rawValue: index)!)
+            self.selectedNode = node
+            self.selectedIndex = index
+            let scannerViewController = ImageScannerController()
+            scannerViewController.imageScannerDelegate = self
+            present(scannerViewController, animated: true)
             
             // highlight it
             SCNTransaction.begin()
@@ -121,7 +101,7 @@ class GameViewController: UIViewController {
             // on completion - unhighlight
             guard let label =  (material.diffuse.contents as? UILabel) else {return}
             label.text?.append(" +")
-            material.emission.contents = label
+            material.diffuse.contents = label
             SCNTransaction.commit()
         }
     }
@@ -133,14 +113,6 @@ class GameViewController: UIViewController {
         label.textAlignment = .center
         let material = SCNMaterial()
         material.diffuse.contents = label
-        material.locksAmbientWithDiffuse = true
-        return material
-    }
-    func getMaterialForImage(side: CubeFace) -> SCNMaterial  {
-        let image = UIImageView.init(image: UIImage.init(named: side.getFaceString()))
-        image.contentMode = .scaleAspectFit
-        let material = SCNMaterial()
-        material.diffuse.contents = image
         material.locksAmbientWithDiffuse = true
         return material
     }
@@ -174,4 +146,24 @@ class GameViewController: UIViewController {
         }
     }
 
+}
+
+extension GameViewController: ImageScannerControllerDelegate {
+    func imageScannerController(_ scanner: ImageScannerController, didFinishScanningWithResults results: ImageScannerResults) {
+        let image = results.scannedImage
+        guard let selectedNodeMaterial = self.selectedNode?.geometry?.materials[self.selectedIndex] else{
+            return
+        }
+        selectedNodeMaterial.diffuse.contents = image
+        UIApplication.getTopMostViewController()?.dismiss(animated: true, completion: nil)
+        
+    }
+    
+    func imageScannerControllerDidCancel(_ scanner: ImageScannerController) {
+    }
+    
+    func imageScannerController(_ scanner: ImageScannerController, didFailWithError error: Error) {
+    }
+    
+    
 }
