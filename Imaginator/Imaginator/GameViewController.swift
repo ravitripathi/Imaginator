@@ -79,7 +79,7 @@ class GameViewController: UIViewController {
         self.progressText.text = "Tap on the sides of the box to take its picture"
         self.progressView.isHidden = true
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Export", style: .done, target: self, action: #selector(exportModel))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Export", style: .done, target: self, action: #selector(showAlert))
     }
     
     @objc
@@ -112,7 +112,20 @@ class GameViewController: UIViewController {
         return material
     }
     
-    @objc func exportModel() {
+    @objc func showAlert() {
+        let alert = UIAlertController(title: "Export", message: "Enter filename", preferredStyle: .alert)
+        alert.addTextField { (textField) in
+            textField.placeholder = "Enter File Name"
+        }
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+            if let alert = alert, let textField = alert.textFields, let text = textField[0].text {
+                self.exportModel(fileName: text)
+            }
+        }))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    @objc func exportModel(fileName: String) {
         guard let url = Utility.shared.getFileURL(withFileName: "test1.scn"), let scene = self.sceneView.scene else {
             return
         }
