@@ -13,9 +13,13 @@
 		41184EAE2233A7D3009D471C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 41184EAC2233A7D3009D471C /* Main.storyboard */; };
 		41184EB02233A7D5009D471C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 41184EAF2233A7D5009D471C /* Assets.xcassets */; };
 		41184EB32233A7D5009D471C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 41184EB12233A7D5009D471C /* LaunchScreen.storyboard */; };
+		41184EBB2233B046009D471C /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41184EBA2233B046009D471C /* Utility.swift */; };
+		41184EBD2233B134009D471C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 41184EBC2233B134009D471C /* GoogleService-Info.plist */; };
+		D08DFA174E3ACADD2B3B06E5 /* Pods_Imaginator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FEF2B740AF04910101FE68A /* Pods_Imaginator.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2FEF2B740AF04910101FE68A /* Pods_Imaginator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Imaginator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		41184EA32233A7D3009D471C /* Imaginator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Imaginator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		41184EA62233A7D3009D471C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		41184EA82233A7D3009D471C /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
@@ -24,6 +28,10 @@
 		41184EAF2233A7D5009D471C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		41184EB22233A7D5009D471C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		41184EB42233A7D5009D471C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		41184EBA2233B046009D471C /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
+		41184EBC2233B134009D471C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
+		58E10E272FEE70447416E98E /* Pods-Imaginator.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Imaginator.debug.xcconfig"; path = "Target Support Files/Pods-Imaginator/Pods-Imaginator.debug.xcconfig"; sourceTree = "<group>"; };
+		E828D7FE917E14693A6D0E88 /* Pods-Imaginator.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Imaginator.release.xcconfig"; path = "Target Support Files/Pods-Imaginator/Pods-Imaginator.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D08DFA174E3ACADD2B3B06E5 /* Pods_Imaginator.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +51,8 @@
 			children = (
 				41184EA52233A7D3009D471C /* Imaginator */,
 				41184EA42233A7D3009D471C /* Products */,
+				7A5E9B745C4A492FA78BA925 /* Pods */,
+				ADF1CB373F3A38EF24ECFB09 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -57,14 +68,34 @@
 			isa = PBXGroup;
 			children = (
 				41184EA62233A7D3009D471C /* AppDelegate.swift */,
+				41184EBC2233B134009D471C /* GoogleService-Info.plist */,
 				41184EA82233A7D3009D471C /* art.scnassets */,
 				41184EAA2233A7D3009D471C /* GameViewController.swift */,
 				41184EAC2233A7D3009D471C /* Main.storyboard */,
 				41184EAF2233A7D5009D471C /* Assets.xcassets */,
 				41184EB12233A7D5009D471C /* LaunchScreen.storyboard */,
 				41184EB42233A7D5009D471C /* Info.plist */,
+				41184EBA2233B046009D471C /* Utility.swift */,
 			);
 			path = Imaginator;
+			sourceTree = "<group>";
+		};
+		7A5E9B745C4A492FA78BA925 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				58E10E272FEE70447416E98E /* Pods-Imaginator.debug.xcconfig */,
+				E828D7FE917E14693A6D0E88 /* Pods-Imaginator.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		ADF1CB373F3A38EF24ECFB09 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2FEF2B740AF04910101FE68A /* Pods_Imaginator.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,9 +105,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 41184EB72233A7D5009D471C /* Build configuration list for PBXNativeTarget "Imaginator" */;
 			buildPhases = (
+				0D545B064D9130E8094B9908 /* [CP] Check Pods Manifest.lock */,
 				41184E9F2233A7D3009D471C /* Sources */,
 				41184EA02233A7D3009D471C /* Frameworks */,
 				41184EA12233A7D3009D471C /* Resources */,
+				803E2485BC0613B5398D1A9B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -127,12 +160,64 @@
 			files = (
 				41184EA92233A7D3009D471C /* art.scnassets in Resources */,
 				41184EB32233A7D5009D471C /* LaunchScreen.storyboard in Resources */,
+				41184EBD2233B134009D471C /* GoogleService-Info.plist in Resources */,
 				41184EB02233A7D5009D471C /* Assets.xcassets in Resources */,
 				41184EAE2233A7D3009D471C /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0D545B064D9130E8094B9908 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Imaginator-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		803E2485BC0613B5398D1A9B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Imaginator/Pods-Imaginator-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Imaginator/Pods-Imaginator-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		41184E9F2233A7D3009D471C /* Sources */ = {
@@ -141,6 +226,7 @@
 			files = (
 				41184EAB2233A7D3009D471C /* GameViewController.swift in Sources */,
 				41184EA72233A7D3009D471C /* AppDelegate.swift in Sources */,
+				41184EBB2233B046009D471C /* Utility.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,6 +370,7 @@
 		};
 		41184EB82233A7D5009D471C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 58E10E272FEE70447416E98E /* Pods-Imaginator.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -302,6 +389,7 @@
 		};
 		41184EB92233A7D5009D471C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E828D7FE917E14693A6D0E88 /* Pods-Imaginator.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

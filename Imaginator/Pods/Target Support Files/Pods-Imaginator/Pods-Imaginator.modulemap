@@ -1,0 +1,6 @@
+framework module Pods_Imaginator {
+  umbrella header "Pods-Imaginator-umbrella.h"
+
+  export *
+  module * { export * }
+}

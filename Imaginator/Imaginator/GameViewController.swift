@@ -36,8 +36,8 @@ class GameViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // create a new scene
         let scene = SCNScene()
+        
         // create and add a camera to the scene
         let cameraNode = SCNNode()
         cameraNode.camera = SCNCamera()
@@ -53,6 +53,7 @@ class GameViewController: UIViewController {
         lightNode.position = SCNVector3(x: 0, y: 10, z: 10)
         scene.rootNode.addChildNode(lightNode)
         
+
         // create and add an ambient light to the scene
 //                let ambientLightNode = SCNNode()
 //                ambientLightNode.light = SCNLight()
@@ -138,4 +139,13 @@ class GameViewController: UIViewController {
         material.locksAmbientWithDiffuse = true
         return material
     }
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            return .allButUpsideDown
+        } else {
+            return .all
+        }
+    }
+
 }
