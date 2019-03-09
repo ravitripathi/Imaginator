@@ -13,6 +13,7 @@ import FirebaseStorage
 class Utility {
     
     let storage = Storage.storage()
+    static let shared = Utility()
     
     func getFileURL(withFileName name: String) -> URL? {
         guard let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else{
@@ -25,12 +26,18 @@ class Utility {
         scene.write(to: url, options: nil, delegate: nil, progressHandler: progressHandler)
     }
     
-    func uploadScene(withURL url: URL, completition: @escaping (_ progress: Progress?)-> Void) {
+    func uploadScene(withURL url: URL, completition: @escaping (_ progress: Progress)-> Void) {
         let fileName = url.lastPathComponent
-        let storageRef = storage.reference().child("scenes/\(fileName).scn")
-        let uploadTask = storageRef.putFile(from: url, metadata: nil)
+        let storageRef = storage.reference().child("scenes/\(fileName)")
+        
+        let uploadTask = storageRef.putFile(from: url, metadata: nil) { (metaData, error) in
+            print(error)
+        }
+        
         uploadTask.observe(.progress) { snapshot in
-            completition(snapshot.progress)
+            if let progress = snapshot.progress {
+                 completition(progress)
+            }
         }
     }
     

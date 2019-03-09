@@ -11,7 +11,14 @@ import QuartzCore
 import SceneKit
 
 class GameViewController: UIViewController {
-
+    
+    @IBAction func exportTapped(_ sender: UIButton) {
+        self.exportModel()
+    }
+    
+    @IBOutlet weak var progressView: UIProgressView!
+    @IBOutlet weak var progressText: UILabel!
+    
     enum CubeFace: Int {
         case Front, Right, Back, Left, Top, Bottom
         func getFaceString() -> String{
@@ -96,11 +103,9 @@ class GameViewController: UIViewController {
     
     @objc
     func handleTap(_ gestureRecognize: UIGestureRecognizer) {
-        // retrieve the SCNView
-        let scnView = self.view as! SCNView
         // check what nodes are tapped
-        let p = gestureRecognize.location(in: scnView)
-        let hitResults = scnView.hitTest(p, options: [:])
+        let p = gestureRecognize.location(in: self.sceneView)
+        let hitResults = self.sceneView.hitTest(p, options: [:])
         // check that we clicked on at least one object
         if hitResults.count > 0 {
             // retrieved the first clicked object
@@ -138,6 +143,27 @@ class GameViewController: UIViewController {
         material.diffuse.contents = image
         material.locksAmbientWithDiffuse = true
         return material
+    }
+    
+    func exportModel() {
+        guard let url = Utility.shared.getFileURL(withFileName: "test1.scn"), let scene = self.sceneView.scene else {
+            return
+        }
+        self.progressText.text = "Exporting Scene"
+        self.progressView.setProgress(0.0, animated: true)
+        Utility.shared.export(scene: scene, withURL: url) { (progress, error, _) in
+            self.progressView.setProgress(progress, animated: true)
+            if progress == 1.0 {
+                self.progressView.setProgress(0.0, animated: true)
+                self.progressText.text = "Uploading Scene"
+                Utility.shared.uploadScene(withURL: url, completition: { (progress) in
+                    self.progressView.setProgress(Float(progress.fractionCompleted), animated: true)
+                    if progress.isFinished {
+                        self.progressText.text = "Upload Done"
+                    }
+                })
+            }
+        }
     }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {

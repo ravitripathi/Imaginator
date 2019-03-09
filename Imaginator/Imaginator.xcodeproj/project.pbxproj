@@ -15,6 +15,8 @@
 		41184EB32233A7D5009D471C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 41184EB12233A7D5009D471C /* LaunchScreen.storyboard */; };
 		41184EBB2233B046009D471C /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41184EBA2233B046009D471C /* Utility.swift */; };
 		41184EBD2233B134009D471C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 41184EBC2233B134009D471C /* GoogleService-Info.plist */; };
+		41277BC822342D0800A9EA83 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41277BC722342D0800A9EA83 /* HomeViewController.swift */; };
+		41277BCA22342FE300A9EA83 /* ScanListTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41277BC922342FE300A9EA83 /* ScanListTableVC.swift */; };
 		D08DFA174E3ACADD2B3B06E5 /* Pods_Imaginator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FEF2B740AF04910101FE68A /* Pods_Imaginator.framework */; };
 /* End PBXBuildFile section */
 
@@ -30,6 +32,8 @@
 		41184EB42233A7D5009D471C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		41184EBA2233B046009D471C /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		41184EBC2233B134009D471C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
+		41277BC722342D0800A9EA83 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		41277BC922342FE300A9EA83 /* ScanListTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanListTableVC.swift; sourceTree = "<group>"; };
 		58E10E272FEE70447416E98E /* Pods-Imaginator.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Imaginator.debug.xcconfig"; path = "Target Support Files/Pods-Imaginator/Pods-Imaginator.debug.xcconfig"; sourceTree = "<group>"; };
 		E828D7FE917E14693A6D0E88 /* Pods-Imaginator.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Imaginator.release.xcconfig"; path = "Target Support Files/Pods-Imaginator/Pods-Imaginator.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -76,6 +80,8 @@
 				41184EB12233A7D5009D471C /* LaunchScreen.storyboard */,
 				41184EB42233A7D5009D471C /* Info.plist */,
 				41184EBA2233B046009D471C /* Utility.swift */,
+				41277BC722342D0800A9EA83 /* HomeViewController.swift */,
+				41277BC922342FE300A9EA83 /* ScanListTableVC.swift */,
 			);
 			path = Imaginator;
 			sourceTree = "<group>";
@@ -86,7 +92,6 @@
 				58E10E272FEE70447416E98E /* Pods-Imaginator.debug.xcconfig */,
 				E828D7FE917E14693A6D0E88 /* Pods-Imaginator.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -226,7 +231,9 @@
 			files = (
 				41184EAB2233A7D3009D471C /* GameViewController.swift in Sources */,
 				41184EA72233A7D3009D471C /* AppDelegate.swift in Sources */,
+				41277BCA22342FE300A9EA83 /* ScanListTableVC.swift in Sources */,
 				41184EBB2233B046009D471C /* Utility.swift in Sources */,
+				41277BC822342D0800A9EA83 /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
