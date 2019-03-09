@@ -12,16 +12,18 @@ import SceneKit
 
 class GameViewController: UIViewController {
 
+    @IBOutlet var sceneView: SCNView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         // create a new scene
-        let scene = SCNScene(named: "art.scnassets/ship.scn")!
-        
+        //        let scene = SCNScene(named: "art.scnassets/ship.scn")!
+        let scene = SCNScene()
         // create and add a camera to the scene
         let cameraNode = SCNNode()
         cameraNode.camera = SCNCamera()
         scene.rootNode.addChildNode(cameraNode)
+        //        scene.rootNode.addChildNode(cameraNode)
         
         // place the camera
         cameraNode.position = SCNVector3(x: 0, y: 0, z: 15)
@@ -29,41 +31,51 @@ class GameViewController: UIViewController {
         // create and add a light to the scene
         let lightNode = SCNNode()
         lightNode.light = SCNLight()
-        lightNode.light!.type = .omni
+        lightNode.light!.type = .ambient
         lightNode.position = SCNVector3(x: 0, y: 10, z: 10)
         scene.rootNode.addChildNode(lightNode)
         
         // create and add an ambient light to the scene
-        let ambientLightNode = SCNNode()
-        ambientLightNode.light = SCNLight()
-        ambientLightNode.light!.type = .ambient
-        ambientLightNode.light!.color = UIColor.darkGray
-        scene.rootNode.addChildNode(ambientLightNode)
+        //        let ambientLightNode = SCNNode()
+        //        ambientLightNode.light = SCNLight()
+        //        ambientLightNode.light!.type = .ambient
+        //        ambientLightNode.light!.color = UIColor.darkGray
+        //        scene.rootNode.addChildNode(ambientLightNode)
         
         // retrieve the ship node
-        let ship = scene.rootNode.childNode(withName: "ship", recursively: true)!
+        //        let ship = scene.rootNode.childNode(withName: "ship", recursively: true)!
+        let box = SCNBox(width: 4, height: 4, length: 4, chamferRadius: 0)
+        
+        //        let greenMateral = SCNMaterial()
+        //        greenMateral.diffuse.contents = UIColor.green
+        //        greenMateral.locksAmbientWithDiffuse = true
+       
+        box.materials = []
+        //        box.materials = [greenMateral, greenMateral1, greenMateral2, a, b, c]
+        let node = SCNNode(geometry: box)
+        scene.rootNode.addChildNode(node)
         
         // animate the 3d object
-        ship.runAction(SCNAction.repeatForever(SCNAction.rotateBy(x: 0, y: 2, z: 0, duration: 1)))
+        //        ship.runAction(SCNAction.repeatForever(SCNAction.rotateBy(x: 0, y: 2, z: 0, duration: 1)))
         
         // retrieve the SCNView
-        let scnView = self.view as! SCNView
+        //let scnView = self.view as! SCNView
         
         // set the scene to the view
-        scnView.scene = scene
         
+        self.sceneView.scene = scene
         // allows the user to manipulate the camera
-        scnView.allowsCameraControl = true
+        sceneView.allowsCameraControl = true
         
         // show statistics such as fps and timing information
-        scnView.showsStatistics = true
+        sceneView.showsStatistics = true
         
         // configure the view
-        scnView.backgroundColor = UIColor.black
+        sceneView.backgroundColor = UIColor.black
         
         // add a tap gesture recognizer
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
-        scnView.addGestureRecognizer(tapGesture)
+        sceneView.addGestureRecognizer(tapGesture)
     }
     
     @objc
