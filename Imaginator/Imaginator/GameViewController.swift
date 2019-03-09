@@ -13,10 +13,6 @@ import WeScan
 
 class GameViewController: UIViewController {
     
-    @IBAction func exportTapped(_ sender: UIButton) {
-        self.exportModel()
-    }
-    
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var progressText: UILabel!
     var selectedMaterial: SCNMaterial?
@@ -47,23 +43,11 @@ class GameViewController: UIViewController {
         super.viewDidLoad()
         let scene = SCNScene()
         
-        
         let gradient = CAGradientLayer()
         gradient.colors = [(UIColor(red: 242.0 / 255.0, green: 140.0 / 255.0, blue: 24.0 / 255.0, alpha: 1.0)).cgColor, (UIColor(red: 245.0 / 255.0, green: 193.0 / 255.0, blue: 135.0 / 255.0, alpha: 1.0)).cgColor]
-        gradient.frame = sceneView.frame
-        //
-        ////        let gradient = CAGradientLayer()
-        ////        gradient.colors = [UIColor.lightGray.cgColor, UIColor.blue.cgColor]
-        ////        gradient.locations = [0, 1]
-        ////        gradient.frame = sceneView.frame
-        //
-        //
+        gradient.frame = view.frame
         scene.background.contents =  gradient
-        ////        sceneView.backgroundColor = UIColor.clear
-        
-        
-        
-        
+
         // create and add a camera to the scene
         let cameraNode = SCNNode()
         cameraNode.camera = SCNCamera()
@@ -94,6 +78,8 @@ class GameViewController: UIViewController {
         
         self.progressText.text = "Tap on the sides of the box to take its picture"
         self.progressView.isHidden = true
+        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Export", style: .done, target: self, action: #selector(exportModel))
     }
     
     @objc
@@ -126,11 +112,12 @@ class GameViewController: UIViewController {
         return material
     }
     
-    func exportModel() {
+    @objc func exportModel() {
         guard let url = Utility.shared.getFileURL(withFileName: "test1.scn"), let scene = self.sceneView.scene else {
             return
         }
         self.progressText.text = "Exporting Scene"
+        self.progressView.isHidden = false
         self.progressView.setProgress(0.0, animated: true)
         Utility.shared.export(scene: scene, withURL: url) { (progress, error, _) in
             self.progressView.setProgress(progress, animated: true)
