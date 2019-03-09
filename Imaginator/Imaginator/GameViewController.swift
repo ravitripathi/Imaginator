@@ -13,7 +13,21 @@ import SceneKit
 class GameViewController: UIViewController {
     
     @IBAction func exportTapped(_ sender: UIButton) {
-        self.exportModel()
+        let alert = UIAlertController(title: "Some Title", message: "Enter a text", preferredStyle: .alert)
+        
+        alert.addTextField { (textField) in
+            textField.placeholder = "Enter File Name"
+        }
+        
+        // 3. Grab the value from the text field, and print it when the user clicks OK.
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+            if let alert = alert, let textField = alert.textFields, let text = textField[0].text {
+                self.exportModel(fileName: text)
+            }
+        }))
+        
+        // 4. Present the alert.
+        self.present(alert, animated: true, completion: nil)
     }
     
     @IBOutlet weak var progressView: UIProgressView!
@@ -145,7 +159,7 @@ class GameViewController: UIViewController {
         return material
     }
     
-    func exportModel() {
+    func exportModel(fileName: String) {
         guard let url = Utility.shared.getFileURL(withFileName: "test1.scn"), let scene = self.sceneView.scene else {
             return
         }
@@ -156,7 +170,7 @@ class GameViewController: UIViewController {
             if progress == 1.0 {
                 self.progressView.setProgress(0.0, animated: true)
                 self.progressText.text = "Uploading Scene"
-                Utility.shared.uploadScene(withURL: url, completition: { (progress) in
+                Utility.shared.uploadScene(withURL: url, fileName: fileName, completition: { (progress) in
                     self.progressView.setProgress(Float(progress.fractionCompleted), animated: true)
                     if progress.isFinished {
                         self.progressText.text = "Upload Done"
