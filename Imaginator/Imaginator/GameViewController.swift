@@ -13,28 +13,10 @@ import WeScan
 
 class GameViewController: UIViewController {
     
-    @IBAction func exportTapped(_ sender: UIButton) {
-        let alert = UIAlertController(title: "Some Title", message: "Enter a text", preferredStyle: .alert)
-        
-        alert.addTextField { (textField) in
-            textField.placeholder = "Enter File Name"
-        }
-        
-        // 3. Grab the value from the text field, and print it when the user clicks OK.
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
-            if let alert = alert, let textField = alert.textFields, let text = textField[0].text {
-                self.exportModel(fileName: text)
-            }
-        }))
-        
-        // 4. Present the alert.
-        self.present(alert, animated: true, completion: nil)
-    }
-    
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var progressText: UILabel!
-    var selectedNode: SCNNode?
-    var selectedIndex = -1
+    var selectedMaterial: SCNMaterial?
+    
     enum CubeFace: Int {
         case Front, Right, Back, Left, Top, Bottom
         func getFaceString() -> String{
@@ -61,6 +43,11 @@ class GameViewController: UIViewController {
         super.viewDidLoad()
         let scene = SCNScene()
         
+        let gradient = CAGradientLayer()
+        gradient.colors = [(UIColor(red: 242.0 / 255.0, green: 140.0 / 255.0, blue: 24.0 / 255.0, alpha: 1.0)).cgColor, (UIColor(red: 245.0 / 255.0, green: 193.0 / 255.0, blue: 135.0 / 255.0, alpha: 1.0)).cgColor]
+        gradient.frame = view.frame
+        scene.background.contents =  gradient
+
         // create and add a camera to the scene
         let cameraNode = SCNNode()
         cameraNode.camera = SCNCamera()
@@ -76,7 +63,7 @@ class GameViewController: UIViewController {
         lightNode.position = SCNVector3(x: 0, y: 10, z: 10)
         scene.rootNode.addChildNode(lightNode)
         
-        let box = SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0)
+        let box = SCNBox(width: 4, height: 4, length: 4, chamferRadius: 0)
         box.materials = [getMaterial(text: "front"), getMaterial(text: "right"), getMaterial(text: "back"), getMaterial(text: "left"), getMaterial(text: "top"), getMaterial(text: "bottom")]
         let node = SCNNode(geometry: box)
         scene.rootNode.addChildNode(node)
@@ -88,6 +75,11 @@ class GameViewController: UIViewController {
         sceneView.backgroundColor = UIColor.black
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
         sceneView.addGestureRecognizer(tapGesture)
+        
+        self.progressText.text = "Tap on the sides of the box to take its picture"
+        self.progressView.isHidden = true
+        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Export", style: .done, target: self, action: #selector(showAlert))
     }
     
     @objc
@@ -100,23 +92,12 @@ class GameViewController: UIViewController {
             // retrieved the first clicked object
             
             // get its material
-            guard let node = hitResults.first?.node, let index = hitResults.first?.geometryIndex,let count = hitResults.first?.node.geometry?.materials.count, count > 0, count > index, let material = hitResults.first?.node.geometry?.materials[index] else {return}
-            // this is just to test which side is tapped
+            guard let index = hitResults.first?.geometryIndex,let count = hitResults.first?.node.geometry?.materials.count, count > 0, count > index, let material = hitResults.first?.node.geometry?.materials[index] else {return}
             print("Cube Face Tap is: ",CubeFace.init(rawValue: index)!)
-            self.selectedNode = node
-            self.selectedIndex = index
+            self.selectedMaterial = material
             let scannerViewController = ImageScannerController()
             scannerViewController.imageScannerDelegate = self
             present(scannerViewController, animated: true)
-            
-            // highlight it
-            SCNTransaction.begin()
-            SCNTransaction.animationDuration = 0.5
-            // on completion - unhighlight
-            guard let label =  (material.diffuse.contents as? UILabel) else {return}
-            label.text?.append(" +")
-            material.diffuse.contents = label
-            SCNTransaction.commit()
         }
     }
     
@@ -131,11 +112,25 @@ class GameViewController: UIViewController {
         return material
     }
     
-    func exportModel(fileName: String) {
+    @objc func showAlert() {
+        let alert = UIAlertController(title: "Export", message: "Enter filename", preferredStyle: .alert)
+        alert.addTextField { (textField) in
+            textField.placeholder = "Enter File Name"
+        }
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+            if let alert = alert, let textField = alert.textFields, let text = textField[0].text {
+                self.exportModel(fileName: text)
+            }
+        }))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+   @objc func exportModel(fileName: String) {
         guard let url = Utility.shared.getFileURL(withFileName: "test1.scn"), let scene = self.sceneView.scene else {
             return
         }
         self.progressText.text = "Exporting Scene"
+        self.progressView.isHidden = false
         self.progressView.setProgress(0.0, animated: true)
         Utility.shared.export(scene: scene, withURL: url) { (progress, error, _) in
             self.progressView.setProgress(progress, animated: true)
@@ -159,21 +154,18 @@ class GameViewController: UIViewController {
             return .all
         }
     }
-
+    
 }
 
 extension GameViewController: ImageScannerControllerDelegate {
     func imageScannerController(_ scanner: ImageScannerController, didFinishScanningWithResults results: ImageScannerResults) {
         let image = results.scannedImage
-        guard let selectedNodeMaterial = self.selectedNode?.geometry?.materials[self.selectedIndex] else{
-            return
-        }
-        selectedNodeMaterial.diffuse.contents = image
+        self.selectedMaterial?.diffuse.contents = image
         UIApplication.getTopMostViewController()?.dismiss(animated: true, completion: nil)
-        
     }
     
     func imageScannerControllerDidCancel(_ scanner: ImageScannerController) {
+        UIApplication.getTopMostViewController()?.dismiss(animated: false, completion: nil)
     }
     
     func imageScannerController(_ scanner: ImageScannerController, didFailWithError error: Error) {
