@@ -52,7 +52,7 @@ class Utility {
             
             uploadTask.observe(.progress) { snapshot in
                 if let progress = snapshot.progress {
-                     completition(progress)
+                    completition(progress)
                 }
             }
         }
@@ -75,4 +75,86 @@ class Utility {
         }
     }
     
+    func downloadFile(withUrl fileURL: URL, completition: @escaping (_ success: Bool, _ url: URL?) -> ()) {
+        self.clearTempFolder()
+        guard let documentsUrl:URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
+            completition(false,nil)
+            return
+        }
+        //
+        let destinationFileUrl = documentsUrl.appendingPathComponent("display.scn")
+        let sessionConfig = URLSessionConfiguration.default
+        let session = URLSession(configuration: sessionConfig)
+        let request = URLRequest(url:fileURL)
+        
+        if FileManager.default.fileExists(atPath: destinationFileUrl.absoluteString) {
+            do {
+                try FileManager.default.removeItem(at: destinationFileUrl)
+            } catch {
+                completition(false,nil)
+                return
+            }
+        } else {
+            let task = session.downloadTask(with: request) { (tempLocalUrl, response, error) in
+                if let tempLocalUrl = tempLocalUrl, error == nil {
+                    // Success
+                    if let statusCode = (response as? HTTPURLResponse)?.statusCode {
+                        print("Successfully downloaded. Status code: \(statusCode)")
+                        
+                        
+                        do {
+                            let data = try Data.init(contentsOf: tempLocalUrl)
+                            try data.write(to: destinationFileUrl, options: .atomic)
+                            completition(true, destinationFileUrl)
+                        } catch (let exception) {
+                            print("Error creating a file \(destinationFileUrl) : \(exception)")
+                            completition(false, nil)
+                        }
+                        
+//                        if let dat = FileManager.default.contents(atPath: tempLocalUrl.absoluteString) {
+//                            do {
+//                                try dat.write(to: destinationFileUrl, options: .atomic)
+//                                completition(true, destinationFileUrl)
+//                            } catch (let exception) {
+//                                print("Error creating a file \(destinationFileUrl) : \(exception)")
+//                                completition(false, nil)
+//                            }
+//                        }
+                    }
+                    
+//
+//
+//
+//                    do {
+//
+//                        try FileManager.default.copyItem(at: tempLocalUrl, to: destinationFileUrl)
+//                        completition(true, destinationFileUrl)
+//
+//                    } catch (let writeError) {
+//                        print("Error creating a file \(destinationFileUrl) : \(writeError)")
+//                        completition(false, nil)
+//                    }
+                } else {
+                    print("Error took place while downloading a file. Error description: %@", error?.localizedDescription);
+                    completition(false,nil)
+                }
+            }
+            task.resume()
+        }
+    }
+    
+    func clearTempFolder() {
+        let fileManager = FileManager.default
+        let tempFolderPath = NSTemporaryDirectory()
+        
+        do {
+            let filePaths = try fileManager.contentsOfDirectory(atPath: tempFolderPath)
+            for filePath in filePaths {
+                try fileManager.removeItem(atPath: NSTemporaryDirectory() + filePath)
+            }
+        } catch let error as NSError {
+            print("Could not clear temp folder: \(error.debugDescription)")
+        }
+    }
+
 }

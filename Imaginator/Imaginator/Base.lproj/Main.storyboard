@@ -79,10 +79,42 @@
                             <outlet property="delegate" destination="S2f-au-dq7" id="fJX-rA-4BB"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="7S0-uz-HIQ" kind="show" identifier="showScreen" id="kat-g7-eBK"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rey-P2-Ong" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2823" y="-827"/>
+        </scene>
+        <!--Viewer Controller-->
+        <scene sceneID="3mw-gf-Tlk">
+            <objects>
+                <viewController id="7S0-uz-HIQ" customClass="ViewerController" customModule="Imaginator" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="d4u-QD-Bmf">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <sceneKitView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S2a-ZW-YHX">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                            </sceneKitView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="U7m-4t-vY3" firstAttribute="bottom" secondItem="S2a-ZW-YHX" secondAttribute="bottom" id="19f-44-e7y"/>
+                            <constraint firstItem="S2a-ZW-YHX" firstAttribute="top" secondItem="U7m-4t-vY3" secondAttribute="top" id="19f-El-7dL"/>
+                            <constraint firstItem="S2a-ZW-YHX" firstAttribute="leading" secondItem="U7m-4t-vY3" secondAttribute="leading" id="G3j-h6-NDs"/>
+                            <constraint firstItem="U7m-4t-vY3" firstAttribute="trailing" secondItem="S2a-ZW-YHX" secondAttribute="trailing" id="zDP-A9-vsE"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="U7m-4t-vY3"/>
+                    </view>
+                    <connections>
+                        <outlet property="sceneKitView" destination="S2a-ZW-YHX" id="lbm-07-DuG"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cQH-LO-g1k" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4001" y="-904"/>
         </scene>
         <!--Home View Controller-->
         <scene sceneID="v1L-jk-Abr">
