@@ -43,5 +43,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>To get photos</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>To get photos</string>
 </dict>
 </plist>

@@ -20,6 +20,9 @@
 		41277BCD2234897500A9EA83 /* SceneModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41277BCC2234897500A9EA83 /* SceneModel.swift */; };
 		41277BCF22348B8B00A9EA83 /* ViewerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41277BCE22348B8B00A9EA83 /* ViewerController.swift */; };
 		41277BD3223491FA00A9EA83 /* BM_UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41277BD2223491FA00A9EA83 /* BM_UIViewExtension.swift */; };
+		41277BD72234AE2D00A9EA83 /* CylinderSceneVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41277BD62234AE2D00A9EA83 /* CylinderSceneVC.swift */; };
+		41277BF02234B7AE00A9EA83 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41277BEF2234B7AE00A9EA83 /* SecondViewController.swift */; };
+		41277BF22234B7B700A9EA83 /* CameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41277BF12234B7B700A9EA83 /* CameraController.swift */; };
 		D08DFA174E3ACADD2B3B06E5 /* Pods_Imaginator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FEF2B740AF04910101FE68A /* Pods_Imaginator.framework */; };
 /* End PBXBuildFile section */
 
@@ -40,6 +43,9 @@
 		41277BCC2234897500A9EA83 /* SceneModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneModel.swift; sourceTree = "<group>"; };
 		41277BCE22348B8B00A9EA83 /* ViewerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewerController.swift; sourceTree = "<group>"; };
 		41277BD2223491FA00A9EA83 /* BM_UIViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BM_UIViewExtension.swift; sourceTree = "<group>"; };
+		41277BD62234AE2D00A9EA83 /* CylinderSceneVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CylinderSceneVC.swift; sourceTree = "<group>"; };
+		41277BEF2234B7AE00A9EA83 /* SecondViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
+		41277BF12234B7B700A9EA83 /* CameraController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraController.swift; sourceTree = "<group>"; };
 		58E10E272FEE70447416E98E /* Pods-Imaginator.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Imaginator.debug.xcconfig"; path = "Target Support Files/Pods-Imaginator/Pods-Imaginator.debug.xcconfig"; sourceTree = "<group>"; };
 		E828D7FE917E14693A6D0E88 /* Pods-Imaginator.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Imaginator.release.xcconfig"; path = "Target Support Files/Pods-Imaginator/Pods-Imaginator.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -90,7 +96,10 @@
 				41277BC722342D0800A9EA83 /* HomeViewController.swift */,
 				41277BD2223491FA00A9EA83 /* BM_UIViewExtension.swift */,
 				41277BC922342FE300A9EA83 /* ScanListTableVC.swift */,
+				41277BEF2234B7AE00A9EA83 /* SecondViewController.swift */,
+				41277BF12234B7B700A9EA83 /* CameraController.swift */,
 				41277BCE22348B8B00A9EA83 /* ViewerController.swift */,
+				41277BD62234AE2D00A9EA83 /* CylinderSceneVC.swift */,
 			);
 			path = Imaginator;
 			sourceTree = "<group>";
@@ -248,7 +257,10 @@
 				41184EA72233A7D3009D471C /* AppDelegate.swift in Sources */,
 				41277BCA22342FE300A9EA83 /* ScanListTableVC.swift in Sources */,
 				41184EBB2233B046009D471C /* Utility.swift in Sources */,
+				41277BF22234B7B700A9EA83 /* CameraController.swift in Sources */,
 				41277BC822342D0800A9EA83 /* HomeViewController.swift in Sources */,
+				41277BD72234AE2D00A9EA83 /* CylinderSceneVC.swift in Sources */,
+				41277BF02234B7AE00A9EA83 /* SecondViewController.swift in Sources */,
 				41277BD3223491FA00A9EA83 /* BM_UIViewExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
