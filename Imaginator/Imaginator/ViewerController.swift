@@ -12,19 +12,20 @@ import SceneKit
 class ViewerController: UIViewController {
     
     @IBOutlet weak var sceneKitView: SCNView!
-    var sceneURL: URL?
+    var scene: SCNScene?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        DispatchQueue.main.async {
-            if let sceneURL = self.sceneURL {
-                do{
-                    self.sceneKitView.scene = try SCNScene(url: sceneURL, options: nil)
-                } catch {
-                    
-                }
-            }
-        }
+        self.sceneKitView.scene = self.scene
+//        DispatchQueue.main.async {
+//            if let sceneURL = self.sceneURL {
+//                do{
+//                    self.sceneKitView.scene = try SCNScene(url: sceneURL, options: nil)
+//                } catch {
+//
+//                }
+//            }
+//        }
         self.sceneKitView.allowsCameraControl = true
         self.sceneKitView.showsStatistics = true
     }

@@ -75,7 +75,7 @@ class Utility {
         }
     }
     
-    func downloadFile(withUrl fileURL: URL, completition: @escaping (_ success: Bool, _ url: URL?) -> ()) {
+    func downloadFile(withUrl fileURL: URL, completition: @escaping (_ success: Bool, _ url: SCNScene?) -> ()) {
         self.clearTempFolder()
         guard let documentsUrl:URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
             completition(false,nil)
@@ -105,35 +105,13 @@ class Utility {
                         do {
                             let data = try Data.init(contentsOf: tempLocalUrl)
                             try data.write(to: destinationFileUrl, options: .atomic)
-                            completition(true, destinationFileUrl)
+                            let scene = try SCNScene(url: destinationFileUrl, options: nil)
+                            completition(true, scene)
                         } catch (let exception) {
                             print("Error creating a file \(destinationFileUrl) : \(exception)")
                             completition(false, nil)
                         }
-                        
-//                        if let dat = FileManager.default.contents(atPath: tempLocalUrl.absoluteString) {
-//                            do {
-//                                try dat.write(to: destinationFileUrl, options: .atomic)
-//                                completition(true, destinationFileUrl)
-//                            } catch (let exception) {
-//                                print("Error creating a file \(destinationFileUrl) : \(exception)")
-//                                completition(false, nil)
-//                            }
-//                        }
                     }
-                    
-//
-//
-//
-//                    do {
-//
-//                        try FileManager.default.copyItem(at: tempLocalUrl, to: destinationFileUrl)
-//                        completition(true, destinationFileUrl)
-//
-//                    } catch (let writeError) {
-//                        print("Error creating a file \(destinationFileUrl) : \(writeError)")
-//                        completition(false, nil)
-//                    }
                 } else {
                     print("Error took place while downloading a file. Error description: %@", error?.localizedDescription);
                     completition(false,nil)

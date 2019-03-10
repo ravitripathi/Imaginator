@@ -7,11 +7,12 @@
 //
 
 import UIKit
+import SceneKit
 
 class ScanListTableVC: UITableViewController {
 
     var sceneList: [SceneModel] = [SceneModel]()
-    var destinationUrl: URL?
+    var destinationScene: SCNScene?
     override func viewDidLoad() {
         super.viewDidLoad()
         // Uncomment the following line to preserve selection between presentations
@@ -48,11 +49,12 @@ class ScanListTableVC: UITableViewController {
         if indexPath.row < sceneList.count {
             if let sceneUrl = sceneList[indexPath.row].url, let url = URL(string: sceneUrl) {
                 self.view.lock()
-                Utility.shared.downloadFile(withUrl: url) { (success, url) in
-                    self.view.unlock()
-                    if success, let url = url {
-                        self.destinationUrl = url
+                
+                Utility.shared.downloadFile(withUrl: url) { (success, scene) in
+                    if success, let scene = scene {
                         DispatchQueue.main.async {
+                            self.view.unlock()
+                            self.destinationScene = scene
                             self.performSegue(withIdentifier: "showScreen", sender: self)
                         }
                     }
@@ -63,7 +65,7 @@ class ScanListTableVC: UITableViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showScreen", let vc = segue.destination as? ViewerController {
-            vc.sceneURL = self.destinationUrl
+           vc.scene = self.destinationScene
         }
     }
 }
