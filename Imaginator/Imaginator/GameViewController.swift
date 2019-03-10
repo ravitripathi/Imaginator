@@ -160,7 +160,11 @@ class GameViewController: UIViewController {
 extension GameViewController: ImageScannerControllerDelegate {
     func imageScannerController(_ scanner: ImageScannerController, didFinishScanningWithResults results: ImageScannerResults) {
         let image = results.scannedImage
-        self.selectedMaterial?.diffuse.contents = image
+        if let data = image.jpegData(compressionQuality: 0) {
+            let tImage = UIImage(data: data)
+            self.selectedMaterial?.diffuse.contents = tImage
+        }
+       
         UIApplication.getTopMostViewController()?.dismiss(animated: true, completion: nil)
     }
     
